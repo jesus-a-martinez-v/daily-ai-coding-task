@@ -54,14 +54,11 @@ class DataFetcher:
             )
 
             data = self._get_data(USERS_ENDPOINT)
-            print(data)
 
             self.current_fetch_status["users"] += len(data)
 
             # Store them
-            print("STORING")
             self.users.add_elements(data)
-            print("DONE")
 
         elapsed = datetime.now() - start
         self.current_fetch_status["duration"] = elapsed.total_seconds()

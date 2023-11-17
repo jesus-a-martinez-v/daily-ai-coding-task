@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - master
-name: Deploy mastr branch to Chalice
+name: Deploy master branch to Chalice
 jobs:
   deploy:
     name: deploy
@@ -14,7 +14,7 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Chalice deploy
-      run: chalice "deploy"
+      run: chalice delete && chalice deploy
       env:
         # TODO Must add a step to run the tests
         # Place the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your GitHub repo's Setting/Secrets
