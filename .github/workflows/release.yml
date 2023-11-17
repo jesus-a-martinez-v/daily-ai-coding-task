@@ -13,10 +13,8 @@ jobs:
    #   run: python RUN TESTS HERE
     - name: Install dependencies
       run: pip install -r requirements.txt
-    - name: chalice deploy
-      uses: 5tigerjelly/chalice-action@master
-      with:
-        args: deploy
+    - name: Chalice deploy
+      run: chalice "deploy"
       env:
         # TODO Must add a step to run the tests
         # Place the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your GitHub repo's Setting/Secrets
