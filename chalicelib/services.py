@@ -1,28 +1,23 @@
+import json
 import random
 from datetime import datetime
 
 from botocore.exceptions import ClientError
 from botocore.exceptions import NoRegionError
-import json
 from requests_ratelimiter import LimiterSession
 
-from config import API_CALLS_PER_MINUTE
-from config import USERS_CALLS_PER_FETCH
-from config import USERS_ENDPOINT
-from config import USERS_PER_API_CALL
-from utils import get_timestamp
-
-# TODO In order to handle rate limits and failures, we should use a different API
-# TODO Simulate number of results
+from . import config
+from . import utils
 
 
-# TODO Remove reference to event logger
 class DataFetcher:
     def __init__(self, event_logger, users_table):
         try:
             self.current_fetch_status = self._reset_fetch_status()
             self.event_logger = event_logger
-            self.limiter_session = LimiterSession(per_minute=API_CALLS_PER_MINUTE)
+            self.limiter_session = LimiterSession(
+                per_minute=config.API_CALLS_PER_MINUTE
+            )
             self.users = users_table
 
             if not self.users.exists():
@@ -45,7 +40,7 @@ class DataFetcher:
         self.current_fetch_status = self._reset_fetch_status()
         start = datetime.now()
 
-        number_of_calls = random.randint(*USERS_CALLS_PER_FETCH)
+        number_of_calls = random.randint(*config.USERS_CALLS_PER_FETCH)
         for i in range(number_of_calls):
             self.event_logger.info(
                 event={
@@ -53,7 +48,7 @@ class DataFetcher:
                 }
             )
 
-            data = self._get_data(USERS_ENDPOINT)
+            data = self._get_data(config.USERS_ENDPOINT)
 
             self.current_fetch_status["users"] += len(data)
 
@@ -74,7 +69,7 @@ class DataFetcher:
 
         try:
             response = self.limiter_session.get(
-                endpoint, params={"size": random.randint(*USERS_PER_API_CALL)}
+                endpoint, params={"size": random.randint(*config.USERS_PER_API_CALL)}
             )
 
             if response.status_code != 200:
@@ -121,7 +116,7 @@ class DataFetcher:
             "users": 0,
             "api_calls": 0,
             "errors": [],
-            "timestamp": get_timestamp(),
+            "timestamp": utils.get_timestamp(),
             "duration": 0,
         }
 

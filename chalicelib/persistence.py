@@ -1,6 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 from decimal import Decimal
+import json
 
 from botocore.exceptions import ClientError
 
@@ -23,9 +24,13 @@ class DynamoDbTable(ABC):
             else:
                 self.event_logger.error(
                     event={
-                        "message": f"Could not check for existence of {self.table_name}",
-                        "error_code": e.response["Error"]["Code"],
-                        "error_message": e.response["Error"]["Message"],
+                        "message": json.dumps(
+                            {
+                                "message": f"Could not check for existence of {self.table_name}",
+                                "error_code": e.response["Error"]["Code"],
+                                "error_message": e.response["Error"]["Message"],
+                            }
+                        )
                     }
                 )
                 raise
@@ -89,9 +94,13 @@ class DynamoDbTable(ABC):
         except ClientError as e:
             self.event_logger.error(
                 event={
-                    "message": f"Couldn't get elements from table {self.table_name}",
-                    "error_code": e.response["Error"]["Code"],
-                    "error_message": e.response["Error"]["Message"],
+                    "message": json.dumps(
+                        {
+                            "message": f"Couldn't get elements from table {self.table_name}",
+                            "error_code": e.response["Error"]["Code"],
+                            "error_message": e.response["Error"]["Message"],
+                        }
+                    )
                 }
             )
             return []

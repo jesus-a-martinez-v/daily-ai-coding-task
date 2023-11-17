@@ -3,19 +3,20 @@ from chalice import Chalice
 from dotenv import find_dotenv
 from dotenv import load_dotenv
 
-from data import UsersTable
-from logs import EventLogger
-from services import DataFetcher
+from chalicelib import persistence
+from chalicelib import events
+from chalicelib import services
 
 load_dotenv(find_dotenv())
 
 
 app = Chalice(app_name="daily-ai-coding-task")
-event_logger = EventLogger(client=boto3.client("logs"))
-users_table = UsersTable(
+
+event_logger = events.EventLogger(client=boto3.client("logs"))
+users_table = persistence.UsersTable(
     dynamo_resource=boto3.resource("dynamodb"), event_logger=event_logger
 )
-data_fetcher = DataFetcher(event_logger=event_logger, users_table=users_table)
+data_fetcher = services.DataFetcher(event_logger=event_logger, users_table=users_table)
 
 
 @app.route("/fetch-data", methods=["POST"])
