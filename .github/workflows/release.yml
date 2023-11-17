@@ -2,19 +2,24 @@ on:
   push:
     branches:
       - master
-name: Deploy branch to Chalice
+name: Deploy mastr branch to Chalice
 jobs:
   deploy:
     name: deploy
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+   # - name: Run tests
+   #   run: python RUN TESTS HERE
+    - name: Install dependencies
+      run: pip install -r requirements.txt
     - name: chalice deploy
-      uses: jayef0/chalice-extended-action@release-v0.2.1
+      uses: 5tigerjelly/chalice-action@master
+      with:
+        args: deploy
       env:
-        REQUIREMENTS_FILE: requirements.txt
-        OPERATION: deploy
-        STAGE: dev
+        # TODO Must add a step to run the tests
+        # Place the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your GitHub repo's Setting/Secrets
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: us-east-1

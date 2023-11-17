@@ -1,11 +1,8 @@
 import random
 from datetime import datetime
 
-import boto3
 from botocore.exceptions import ClientError
 from botocore.exceptions import NoRegionError
-from dotenv import find_dotenv
-from dotenv import load_dotenv
 import json
 from requests_ratelimiter import LimiterSession
 
@@ -13,11 +10,7 @@ from config import API_CALLS_PER_MINUTE
 from config import USERS_CALLS_PER_FETCH
 from config import USERS_ENDPOINT
 from config import USERS_PER_API_CALL
-from data import UsersTable
-from logs import EventLogger
 from utils import get_timestamp
-
-load_dotenv(find_dotenv())
 
 # TODO In order to handle rate limits and failures, we should use a different API
 # TODO Simulate number of results
@@ -25,14 +18,12 @@ load_dotenv(find_dotenv())
 
 # TODO Remove reference to event logger
 class DataFetcher:
-    def __init__(self, event_logger: EventLogger):
+    def __init__(self, event_logger, users_table):
         try:
             self.current_fetch_status = self._reset_fetch_status()
             self.event_logger = event_logger
             self.limiter_session = LimiterSession(per_minute=API_CALLS_PER_MINUTE)
-            self.users = UsersTable(
-                dynamo_resource=boto3.resource("dynamodb"), event_logger=event_logger
-            )
+            self.users = users_table
 
             if not self.users.exists():
                 self.users.create_table()

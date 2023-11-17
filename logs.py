@@ -1,8 +1,3 @@
-import boto3
-from dotenv import find_dotenv
-from dotenv import load_dotenv
-
-# TODO RENAME THESE
 import json
 from config import ERROR_LOG_STREAM_NAME
 from config import FETCHES_LOG_STREAM_NAME
@@ -11,13 +6,11 @@ from config import LOG_GROUP_NAME
 from config import RETENTION_PERIOD_IN_DAYS
 from utils import get_timestamp
 
-load_dotenv(find_dotenv())
-
 
 class EventLogger:
-    def __init__(self):
+    def __init__(self, client):
         try:
-            self.client = boto3.client("logs")
+            self.client = client
             self._create_log_group()
             self._create_log_streams()
         except Exception as e:
