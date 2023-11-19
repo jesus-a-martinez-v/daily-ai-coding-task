@@ -28,6 +28,13 @@
         "arn:aws:dynamodb:*:*:table/users"
       ],
       "Effect": "Allow"
+    },
+    {
+      "Action": "sqs:*",
+      "Resource": [
+        "arn:aws:sqs:*:*:*"
+      ],
+      "Effect": "Allow"
     }
   ]
 }
