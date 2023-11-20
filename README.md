@@ -19,7 +19,7 @@ Keep reading to learn more about this system!
 Running the project is very easy. Just follow the steps below and you'll be good to go! 👍🏼
 
 ## 1. Create conda environment
-Run the following command to create the following environment:
+Run the following command to create the environment:
 
 ```shell
 conda env create -f env.yml
@@ -94,7 +94,7 @@ Response:
 Otherwise, it'll return information about the last fetch in JSON format:
 Example: 
 ```
-https://ggmzoc406h.execute-api.us-east-1.amazonaws.com/api/status```
+GET https://ggmzoc406h.execute-api.us-east-1.amazonaws.com/api/status
 ```
 
 Response:
@@ -264,7 +264,7 @@ Retrieves all the data stored about users.
 
 Example:
 ```
-https://ggmzoc406h.execute-api.us-east-1.amazonaws.com/api/view-data
+GET https://ggmzoc406h.execute-api.us-east-1.amazonaws.com/api/view-data
 ```
 
 Response:
