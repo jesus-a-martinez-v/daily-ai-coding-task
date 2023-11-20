@@ -12,6 +12,8 @@ It uses a Dead Letter Queue to store information on **SQS** about the failed API
 
 It uses **AWS Chalice** to implement the API, deploy it as a **Lambda** and expose it using **API Gateway**.
 
+It uses GitHub Actions as the CI/CD solution.
+
 Keep reading to learn more about this system!
 
 ## Installation
