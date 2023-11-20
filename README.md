@@ -74,6 +74,16 @@ Resources deployed:
 
 ```
 
+#### NOTE:
+You can also test the app locally by running the following command:
+```
+chalice delete && chalice local
+```
+
+It'll be available on `localhost:8000`
+
+---
+
 ## API
 
 This application has three API endpoints, documented as follows:
