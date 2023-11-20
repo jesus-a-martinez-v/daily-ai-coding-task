@@ -6,3 +6,5 @@ __pycache__
 .DS_Store
 .chalice/.DS_Store
 .chalice/deployed/
+test/.pytest_cache
+.pytest_cache

@@ -18,6 +18,7 @@
       "Action": [
         "dynamodb:DescribeTable",
         "dynamodb:PutItem",
+        "dynamodb:BatchWriteItem",
         "dynamodb:DeleteItem",
         "dynamodb:UpdateItem",
         "dynamodb:GetItem",

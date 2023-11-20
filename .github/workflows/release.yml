@@ -14,9 +14,8 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Chalice deploy
-      run: chalice delete && chalice deploy
+      run: python test && chalice delete && chalice deploy
       env:
-        # TODO Must add a step to run the tests
         # Place the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your GitHub repo's Setting/Secrets
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
